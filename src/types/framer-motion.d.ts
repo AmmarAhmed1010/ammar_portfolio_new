@@ -1,5 +1,9 @@
 import 'framer-motion';
 
+declare module 'framer-motion/dist/framer-motion' {
+  export * from 'framer-motion';
+}
+
 declare module 'framer-motion' {
   export interface MotionProps {
     initial?: any;

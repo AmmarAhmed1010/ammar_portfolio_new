@@ -5,10 +5,18 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Section } from '@/components/section';
 import { ProjectCard } from '@/components/project-card';
-import { motion } from 'framer-motion';
 import { ArrowRight, Code, Cpu, Github, LayoutDashboard, Linkedin, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Home() {
+  // Motion components
+  const MotionDiv = motion.div;
+  const MotionSpan = motion.span;
+  const MotionH1 = motion.h1;
+  const MotionP = motion.p;
+  const MotionA = motion.a;
+  const MotionButton = motion.button;
+  const MotionSection = motion.section;
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">

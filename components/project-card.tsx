@@ -1,6 +1,16 @@
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+'use client';
+
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
+
+const MotionDiv = dynamic(
+  () => import('framer-motion').then((mod) => mod.motion.div),
+  { 
+    ssr: false,
+    loading: () => <div className="w-full h-full bg-muted/50 rounded-xl" />
+  }
+) as any; // Type assertion to handle the dynamic import type
 
 type Project = {
   title: string;
@@ -18,7 +28,7 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
   return (
-    <motion.div
+    <MotionDiv
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -73,6 +83,6 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </MotionDiv>
   );
 }
