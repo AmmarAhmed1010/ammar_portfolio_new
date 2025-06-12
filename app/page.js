@@ -22,7 +22,7 @@ export default function Home() {
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 Hi, I'm{' '}
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Anas Irfan
+                  Ammar Ahmed
                 </span>
               </h1>
               <p className="mt-6 text-lg text-muted-foreground md:text-xl">

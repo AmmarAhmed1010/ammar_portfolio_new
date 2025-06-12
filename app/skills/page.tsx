@@ -68,8 +68,9 @@ export default function SkillsPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="text-2xl font-semibold mb-6">Experience Timeline</h2>
+          <h2 className="text-2xl font-semibold mb-8 text-center md:text-left">Experience Timeline</h2>
           <div className="relative">
+            {/* Timeline line */}
             <div className="absolute left-4 md:left-1/2 h-full w-0.5 bg-border -translate-x-1/2" />
             
             {[
@@ -91,15 +92,22 @@ export default function SkillsPage() {
             ].map((item, index) => (
               <div 
                 key={index} 
-                className={`relative mb-8 ${index % 2 === 0 ? 'md:mr-auto md:pr-8 md:pl-0 pl-10' : 'md:ml-auto md:pl-8 md:pr-0 pl-10'}`}
-                style={{ maxWidth: 'calc(50% - 1rem)' }}
+                className={`relative mb-12 w-full md:w-[calc(50%-1.5rem)] ${index % 2 === 0 ? 'md:pr-8 md:pl-0 pl-10' : 'md:pl-8 md:pr-0 pl-10'}`}
               >
-                <div className="absolute w-4 h-4 rounded-full bg-primary left-0 top-2 -ml-2 md:left-auto md:right-0 md:mr-0" />
-                <div className="bg-muted/50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">{item.period}</p>
-                  <p className="text-sm">{item.description}</p>
+                {/* Timeline dot */}
+                <div className="absolute w-4 h-4 rounded-full bg-primary left-0 top-2 -ml-2 md:left-1/2 md:-ml-2" />
+                
+                {/* Timeline content */}
+                <div className="bg-muted/50 p-6 rounded-lg border border-border/30 hover:border-primary/30 transition-colors">
+                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{item.period}</p>
+                  <p className="text-sm text-muted-foreground/90">{item.description}</p>
                 </div>
+                
+                {/* Connector line for mobile */}
+                {index < 2 && (
+                  <div className="absolute left-0 top-6 h-6 w-0.5 bg-border -bottom-6 md:hidden" />
+                )}
               </div>
             ))}
           </div>

@@ -48,7 +48,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                Anas Irfan
+                Ammar Ahmed
               </span>
             </Link>
             <MainNav className="hidden md:ml-8 md:flex" />

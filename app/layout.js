@@ -6,8 +6,8 @@ import { Header } from "./components/header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Anas Irfan | Frontend Developer",
-  description: "Portfolio of Anas Irfan - Frontend Developer specializing in React, Next.js, and modern web technologies.",
+  title: "Ammar Ahmed | Frontend Developer",
+  description: "Portfolio of Ammar Ahmed - Frontend Developer specializing in React, Next.js, and modern web technologies.",
 };
 
 export default function RootLayout({ children }) {

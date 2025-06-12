@@ -80,6 +80,9 @@ export function MobileNav() {
             className="fixed inset-0 z-40 flex flex-col bg-background/95 backdrop-blur-lg p-6 pt-20"
           >
             <nav className="flex flex-col space-y-4">
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Ammar Ahmed
+              </span>
               {mainNavItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (

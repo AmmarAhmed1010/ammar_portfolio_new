@@ -13,7 +13,7 @@ export default function AboutPage() {
         <h1 className="text-4xl font-bold mb-8">About Me</h1>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-2xl font-semibold mb-4">Hi, I'm Anas Irfan</h2>
+            <h2 className="text-2xl font-semibold mb-4">Hi, I'm Ammar Ahmed</h2>
             <p className="mb-4">
               I'm a passionate Frontend Developer with expertise in building modern web applications using React, Next.js, and other cutting-edge technologies.
             </p>
