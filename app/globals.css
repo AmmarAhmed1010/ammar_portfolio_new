@@ -1,26 +1,489 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
   }
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Blob animation */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Custom Selection */
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+/* Typography */
+.prose {
+  max-width: 65ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold mt-8 mb-4;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold mt-6 mb-3;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose a {
+  @apply text-primary underline underline-offset-4 hover:no-underline;
+}
+
+.prose ul {
+  @apply list-disc pl-6 mb-4;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+/* Custom Components */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animation classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+/* Utility classes */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Custom underline effect */
+.underline-effect {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-effect::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.underline-effect:hover::after {
+  width: 100%;
+}
+
+/* Custom focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background;
+}
+
+/* Custom transitions */
+.transition-default {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Custom scrollbar for code blocks */
+pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+
+/* Custom highlight */
+.highlight {
+  @apply relative;
+}
+
+.highlight::before {
+  content: '';
+  @apply absolute inset-0 bg-primary/10 -z-10 transform -skew-x-12 -translate-x-2;
+}
+
+/* Custom tooltip */
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
+
+/* Custom checkbox */
+.custom-checkbox {
+  @apply h-4 w-4 rounded border border-input focus:ring-primary focus:ring-offset-background focus:ring-offset-2;
+}
+
+/* Custom radio */
+.custom-radio {
+  @apply h-4 w-4 rounded-full border border-input focus:ring-primary focus:ring-offset-background focus:ring-offset-2;
+}
+
+/* Custom switch */
+.custom-switch {
+  @apply h-6 w-11 rounded-full bg-input transition-colors duration-200 ease-in-out;
+}
+
+.custom-switch:before {
+  @apply absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-background shadow-sm transition-transform duration-200 ease-in-out content-[''];
+}
+
+input:checked + .custom-switch {
+  @apply bg-primary;
+}
+
+input:checked + .custom-switch:before {
+  @apply translate-x-5;
+}
+
+/* Custom file input */
+.custom-file-input::-webkit-file-upload-button {
+  @apply bg-transparent border-0 text-foreground cursor-pointer;
+}
+
+/* Custom range */
+.custom-range::-webkit-slider-thumb {
+  @apply h-4 w-4 rounded-full bg-primary appearance-none cursor-pointer -mt-1.5;
+}
+
+.custom-range::-moz-range-thumb {
+  @apply h-4 w-4 rounded-full bg-primary appearance-none cursor-pointer border-0;
+}
+
+.custom-range::-ms-thumb {
+  @apply h-4 w-4 rounded-full bg-primary appearance-none cursor-pointer;
+}
+
+/* Custom progress */
+.custom-progress::-webkit-progress-bar {
+  @apply bg-muted rounded-full;
+}
+
+.custom-progress::-webkit-progress-value {
+  @apply bg-primary rounded-full;
+}
+
+/* Custom meter */
+.custom-meter::-webkit-meter-bar {
+  @apply bg-muted rounded-full;
+}
+
+.custom-meter::-webkit-meter-optimum-value {
+  @apply bg-primary rounded-full;
+}
+
+/* Custom select */
+.custom-select {
+  @apply appearance-none bg-background border border-input rounded-md pl-3 pr-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+}
+
+/* Custom textarea */
+.custom-textarea {
+  @apply min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* Custom input */
+.custom-input {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* Custom checkbox */
+.custom-checkbox {
+  @apply h-4 w-4 rounded border border-input text-primary focus:ring-primary focus:ring-offset-background focus:ring-offset-2;
+}
+
+/* Custom radio */
+.custom-radio {
+  @apply h-4 w-4 rounded-full border border-input text-primary focus:ring-primary focus:ring-offset-background focus:ring-offset-2;
+}
+
+/* Custom switch */
+.custom-switch {
+  @apply h-5 w-9 rounded-full bg-input transition-colors duration-200 ease-in-out;
+}
+
+.custom-switch:before {
+  @apply absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-background shadow-sm transition-transform duration-200 ease-in-out content-[''];
+}
+
+input:checked + .custom-switch {
+  @apply bg-primary;
+}
+
+input:checked + .custom-switch:before {
+  @apply translate-x-4;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.4% 26.1%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+/* Base styles */
+* {
+  border-color: hsl(var(--border));
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
