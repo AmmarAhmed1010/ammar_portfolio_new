@@ -1,16 +1,15 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const MotionDiv = dynamic(
-  () => import('framer-motion').then((mod) => mod.motion.div),
-  { 
-    ssr: false,
-    loading: () => <div className="w-full h-full bg-muted/50 rounded-xl" />
-  }
-) as any; // Type assertion to handle the dynamic import type
+// Register ScrollTrigger plugin
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type Project = {
   title: string;
@@ -27,12 +26,44 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    const card = cardRef.current;
+    
+    // Set initial state
+    gsap.set(card, { 
+      opacity: 0, 
+      y: 20,
+    });
+
+    // Create animation
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        once: true,
+      }
+    });
+
+    tl.to(card, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
   return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+    <div 
+      ref={cardRef}
       className={cn('group relative overflow-hidden rounded-xl border bg-card', className)}
     >
       <div className="aspect-video overflow-hidden bg-muted">
@@ -83,6 +114,6 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </MotionDiv>
+    </div>
   );
 }

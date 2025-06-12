@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../../lib/utils';
-import { motion } from 'framer-motion';
+
 
 type NavItem = {
   title: string;
@@ -44,24 +44,19 @@ export function MainNav({ className }: { className?: string }) {
             key={item.href}
             href={item.href}
             className={cn(
-              'transition-colors hover:text-primary relative px-2 py-1',
+              'group relative px-2 py-1 transition-colors hover:text-primary',
               isActive ? 'text-primary' : 'text-muted-foreground',
               item.disabled && 'cursor-not-allowed opacity-60'
             )}
           >
-            <span className="relative z-10">
+            <span className="relative">
               {item.title}
-              {isActive && (
-                <motion.span
-                  layoutId="activeNavItem"
-                  className="absolute left-0 -bottom-1 h-0.5 w-full bg-primary"
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 30,
-                  }}
-                />
-              )}
+              <span 
+                className={cn(
+                  'absolute left-0 -bottom-1 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full',
+                  isActive ? 'w-full' : ''
+                )}
+              />
             </span>
           </Link>
         );

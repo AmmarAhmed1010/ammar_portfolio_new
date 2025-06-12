@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 
 type NavItem = {
   title: string;
@@ -46,24 +45,19 @@ export function MainNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              'transition-colors hover:text-primary relative px-2 py-1',
+              'transition-colors hover:text-primary relative px-2 py-1 group',
               isActive ? 'text-primary' : 'text-muted-foreground',
-              item.disabled && 'cursor-not-allowed opacity-60'
+              item.disabled && 'cursor-not-allowed opacity-80'
             )}
+            {...(item.disabled && { 'aria-disabled': true })}
           >
-            {isActive && (
-              <motion.span
-                layoutId="activeNavItem"
-                className="absolute inset-0 bg-secondary rounded-md z-[-1]"
-                initial={false}
-                transition={{
-                  type: 'spring',
-                  stiffness: 380,
-                  damping: 30,
-                }}
-              />
-            )}
-            <span className="relative z-10">{item.title}</span>
+            {item.title}
+            <span 
+              className={cn(
+                'absolute left-0 bottom-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full',
+                isActive ? 'w-full' : ''
+              )}
+            />
           </Link>
         );
       })}

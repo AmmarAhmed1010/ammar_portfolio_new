@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { motion } from 'framer-motion';
+import { AnimateOnScroll } from '@/components/animate-on-scroll';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -13,11 +13,11 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden">
           <div className="container relative z-10 px-4">
-            <motion.div
+            <AnimateOnScroll
+              className="max-w-3xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="max-w-3xl"
             >
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 Hi, I'm{' '}
@@ -40,13 +40,13 @@ export default function Home() {
                   <Link href="/contact">Contact Me</Link>
                 </Button>
               </div>
-            </motion.div>
+            </AnimateOnScroll>
 
-            <motion.div
+            <AnimateOnScroll
+              className="mt-16 flex items-center space-x-6"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="mt-16 flex items-center space-x-6"
             >
               <div className="flex -space-x-2">
                 {['React', 'Next.js', 'TypeScript', 'Tailwind CSS'].map((tech, index) => (
@@ -62,7 +62,7 @@ export default function Home() {
                 ))}
               </div>
               <span className="text-sm text-muted-foreground">+ more</span>
-            </motion.div>
+            </AnimateOnScroll>
           </div>
 
           {/* Background elements */}
@@ -73,11 +73,11 @@ export default function Home() {
         </section>
 
         {/* Social Links */}
-        <motion.div 
+        <AnimateOnScroll
+          className="fixed bottom-8 right-8 hidden flex-col space-y-4 md:flex"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="fixed bottom-8 right-8 hidden flex-col space-y-4 md:flex"
         >
           <Button variant="ghost" size="icon" asChild>
             <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
@@ -97,7 +97,7 @@ export default function Home() {
               <span className="sr-only">Email</span>
             </a>
           </Button>
-        </motion.div>
+        </AnimateOnScroll>
       </main>
     </div>
   );

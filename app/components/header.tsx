@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '../../lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { MainNav } from './main-nav';
@@ -97,46 +97,45 @@ export function Header() {
       </header>
       
       {/* Mobile Navigation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-x-0 top-16 z-40 w-full origin-top border-b bg-background/95 backdrop-blur-md md:hidden"
-          >
-            <div className="container px-4 py-4">
-              <MobileNav />
-              <div className="mt-4 flex items-center justify-between border-t pt-4">
-                {mounted && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="w-full justify-start"
-                  >
-                    {theme === 'light' ? (
-                      <Moon className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Sun className="mr-2 h-4 w-4" />
-                    )}
-                    <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-                  </Button>
-                )}
-              </div>
-            </div>
-          </motion.div>
+      <div 
+        className={cn(
+          'md:hidden fixed inset-x-0 top-16 z-40 bg-background/95 backdrop-blur-lg p-4 border-b transition-all duration-200',
+          mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
-      </AnimatePresence>
+      >
+        <MobileNav />
+        {mounted && (
+          <div className="mt-4 flex items-center justify-between border-t pt-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              className="w-full justify-start"
+            >
+              {theme === 'light' ? (
+                <>
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark Mode</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light Mode</span>
+                </>
+              )}
+            </Button>
+          </div>
+        )}
+      </div>
       
       {/* Overlay when mobile menu is open */}
-      {mobileMenuOpen && (
-        <div 
-          className="fixed inset-0 z-30 bg-background/80 backdrop-blur-sm md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
+      <div 
+        className={cn(
+          'fixed inset-0 z-30 bg-background/80 backdrop-blur-sm transition-opacity duration-200',
+          mobileMenuOpen ? 'opacity-100 md:opacity-0 md:pointer-events-none' : 'opacity-0 pointer-events-none'
+        )}
+        onClick={() => setMobileMenuOpen(false)}
+      />
     </>
   );
 }

@@ -1,22 +1,59 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Section } from '@/components/section';
 import { ProjectCard } from '@/components/project-card';
 import { ArrowRight, Code, Cpu, Github, LayoutDashboard, Linkedin, Mail } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { AnimateOnScroll } from '@/components/animate-on-scroll';
+
+// Define types locally
+type AnimationState = {
+  opacity: number;
+  y?: number;
+  x?: number;
+  scale?: number;
+  [key: string]: any;
+};
+
+type AnimationVariant = {
+  from: AnimationState;
+  to: AnimationState;
+};
+
+// Constants
+const TECHNOLOGIES = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL'] as const;
+
+const SERVICES = [
+  {
+    icon: <LayoutDashboard className="w-10 h-10 mb-4 text-primary" />,
+    title: 'Web Development',
+    description: 'Building responsive and performant web applications using modern technologies.'
+  },
+  {
+    icon: <Cpu className="w-10 h-10 mb-4 text-primary" />,
+    title: 'UI/UX Design',
+    description: 'Creating intuitive and beautiful user interfaces that enhance user experience.'
+  },
+  {
+    icon: <Code className="w-10 h-10 mb-4 text-primary" />,
+    title: 'Code Review',
+    description: 'Improving performance and maintainability of existing codebases.'
+  },
+] as const;
 
 export default function Home() {
-  // Motion components
-  const MotionDiv = motion.div;
-  const MotionSpan = motion.span;
-  const MotionH1 = motion.h1;
-  const MotionP = motion.p;
-  const MotionA = motion.a;
-  const MotionButton = motion.button;
-  const MotionSection = motion.section;
+  // Animation variants
+  const fadeInUp: AnimationVariant = {
+    from: { opacity: 0, y: 20 },
+    to: { opacity: 1, y: 0 }
+  };
+  
+  const scaleIn: AnimationVariant = {
+    from: { scale: 0.9, opacity: 0 },
+    to: { scale: 1, opacity: 1 }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -29,167 +66,150 @@ export default function Home() {
           </div>
           
           <div className="container mx-auto px-4 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+            <AnimateOnScroll 
+              {...scaleIn} 
+              duration={0.5} 
+              delay={0.2}
+              className="inline-block"
             >
-              <motion.span 
-                className="inline-block px-4 py-2 mb-6 text-sm font-medium rounded-full bg-primary/10 text-primary/90 backdrop-blur-sm"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
+              <span className="inline-block px-4 py-2 mb-6 text-sm font-medium rounded-full bg-primary/10 text-primary/90 backdrop-blur-sm">
                 Welcome to my portfolio
-              </motion.span>
-              
-              <motion.h1 
-                className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              >
-                Hi, I'm <span className="text-primary">Ammar Ahmed</span>
-              </motion.h1>
-              
-              <motion.p 
-                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-              >
-                I'm a passionate <span className="font-medium text-foreground">Frontend Developer</span> with expertise in building exceptional digital experiences. 
-                I specialize in <span className="font-medium text-foreground">React</span>, <span className="font-medium text-foreground">Next.js</span>, and modern web technologies.
-              </motion.p>
-              
-              <motion.div 
-                className="flex flex-col sm:flex-row justify-center gap-4 mb-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                <Button asChild size="lg" className="group px-8 h-12 text-base">
-                  <Link href="/projects" className="relative overflow-hidden">
-                    <span className="relative z-10 flex items-center">
-                      View My Work
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </span>
-                    <span className="absolute inset-0 bg-primary/90 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="group px-8 h-12 text-base">
-                  <Link href="/contact" className="relative overflow-hidden">
-                    <span className="relative z-10">Get In Touch</span>
-                    <span className="absolute inset-0 bg-muted/90 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
-                  </Link>
-                </Button>
-              </motion.div>
-              
-              <motion.div 
-                className="flex justify-center gap-6 mt-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-              >
-                <motion.a 
-                  href="https://github.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Github className="h-5 w-5" />
-                </motion.a>
-                <motion.a 
-                  href="https://linkedin.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Linkedin className="h-5 w-5" />
-                </motion.a>
-                <motion.a 
-                  href="mailto:contact@example.com" 
-                  className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Mail className="h-5 w-5" />
-                </motion.a>
-              </motion.div>
-            </motion.div>
+              </span>
+            </AnimateOnScroll>
             
-            <motion.div 
-              className="mt-20 md:mt-32 flex justify-center"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.3}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80"
             >
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-4">TECHNOLOGIES I WORK WITH</p>
-                <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
-                  {['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Express', 'MongoDB', 'PostgreSQL'].map((tech, i) => (
-                    <motion.span
-                      key={tech}
-                      className="px-4 py-2 bg-muted rounded-full text-sm font-medium text-foreground/90"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.9 + (i * 0.05) }}
-                    >
+              Hi, I'm <span className="text-primary">Ammar Ahmed</span>
+            </AnimateOnScroll>
+            
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.4}
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed"
+            >
+              I'm a passionate <span className="font-medium text-foreground">Frontend Developer</span> with expertise in building exceptional digital experiences. 
+              I specialize in <span className="font-medium text-foreground">React</span>, <span className="font-medium text-foreground">Next.js</span>, and modern web technologies.
+            </AnimateOnScroll>
+            
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.5}
+              className="flex flex-col sm:flex-row justify-center gap-4 mb-12"
+            >
+              <Button asChild size="lg" className="group px-8 h-12 text-base">
+                <Link href="/projects" className="relative overflow-hidden">
+                  <span className="relative z-10 flex items-center">
+                    View My Work
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                  <span className="absolute inset-0 bg-primary/90 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="group px-8 h-12 text-base">
+                <Link href="/contact" className="relative overflow-hidden">
+                  <span className="relative z-10">Get In Touch</span>
+                  <span className="absolute inset-0 bg-muted/90 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                </Link>
+              </Button>
+            </AnimateOnScroll>
+            
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.6}
+              className="flex justify-center gap-6 mt-12"
+            >
+              <a 
+                href="https://github.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors hover:-translate-y-1 hover:scale-105 active:scale-95"
+                aria-label="GitHub profile"
+              >
+                <Github className="h-5 w-5" />
+              </a>
+              <a 
+                href="https://linkedin.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors hover:-translate-y-1 hover:scale-105 active:scale-95"
+                aria-label="LinkedIn profile"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a 
+                href="mailto:your.email@example.com" 
+                className="p-3 rounded-full bg-muted hover:bg-muted/80 transition-colors hover:-translate-y-1 hover:scale-105 active:scale-95"
+                aria-label="Send email"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
+            </AnimateOnScroll>
+
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.7}
+              className="mt-20 md:mt-32 text-center"
+            >
+              <p className="text-sm text-muted-foreground mb-4">TECHNOLOGIES I WORK WITH</p>
+              <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+                {TECHNOLOGIES.map((tech, i) => (
+                  <AnimateOnScroll
+                    key={tech}
+                    {...fadeInUp}
+                    duration={0.5}
+                    delay={0.9 + (i * 0.05)}
+                    className="inline-block"
+                  >
+                    <span className="px-4 py-2 bg-muted rounded-full text-sm font-medium text-foreground/90">
                       {tech}
-                    </motion.span>
-                  ))}
-                </div>
+                    </span>
+                  </AnimateOnScroll>
+                ))}
               </div>
-            </motion.div>
+            </AnimateOnScroll>
           </div>
         </Section>
 
         {/* Services Section */}
         <Section id="services" className="bg-muted/50">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            <AnimateOnScroll 
+              {...fadeInUp} 
+              duration={0.8} 
+              delay={0.1}
+              className="text-center mb-12"
+            >
               <h2 className="text-3xl font-bold mb-4">What I Do</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 I offer a range of services to help bring your digital ideas to life.
               </p>
-            </div>
+            </AnimateOnScroll>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <LayoutDashboard className="h-10 w-10 mb-4 text-primary" />,
-                  title: 'Web Development',
-                  description: 'Building responsive and interactive websites using modern technologies like React, Next.js, and TypeScript.'
-                },
-                {
-                  icon: <Cpu className="h-10 w-10 mb-4 text-primary" />,
-                  title: 'UI/UX Design',
-                  description: 'Creating intuitive and beautiful user interfaces with a focus on user experience and accessibility.'
-                },
-                {
-                  icon: <Code className="h-10 w-10 mb-4 text-primary" />,
-                  title: 'Code Optimization',
-                  description: 'Improving performance and maintainability of existing codebases.'
-                },
-              ].map((service, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: index * 0.1 
-                  }}
-                  className="bg-background p-6 rounded-xl border shadow-sm hover:shadow-md transition-shadow"
+              {SERVICES.map((service, index) => (
+                <AnimateOnScroll
+                  key={service.title}
+                  {...fadeInUp}
+                  duration={0.5}
+                  delay={0.2 + index * 0.1}
+                  className="bg-background p-6 rounded-xl border shadow-sm hover:shadow-md transition-colors hover:bg-background/90"
                 >
-                  {service.icon}
-                  <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                  <p className="text-muted-foreground">{service.description}</p>
-                </motion.div>
+                  <div className="flex flex-col h-full">
+                    <div className="mb-4">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                    <p className="text-muted-foreground flex-grow">{service.description}</p>
+                  </div>
+                </AnimateOnScroll>
               ))}
             </div>
           </div>

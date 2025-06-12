@@ -3,15 +3,9 @@ const nextConfig = {
   // Enable React Strict Mode
   reactStrictMode: true,
   
-  // Configure webpack to handle Framer Motion ESM modules
-  webpack: (config, { isServer }) => {
-    // For Framer Motion ESM modules
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'framer-motion': 'framer-motion/dist/framer-motion',
-    };
-    
-    // Important: return the modified config
+  // Webpack configuration
+  webpack: (config) => {
+    // Add any necessary webpack configuration here
     return config;
   },
   

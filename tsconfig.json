@@ -23,8 +23,7 @@
     "jsx": "preserve",
     "incremental": true,
     "types": [
-      "node",
-      "framer-motion"
+      "node"
     ],
     "plugins": [
       {
