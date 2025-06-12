@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { AnimateOnScroll } from './animate-on-scroll';
 
 export function Footer() {
@@ -11,22 +11,22 @@ export function Footer() {
     {
       name: 'GitHub',
       url: 'https://github.com/yourusername',
-      icon: <Github className="h-5 w-5" />,
+      className: 'hover:bg-gray-800 dark:hover:bg-gray-700',
     },
     {
       name: 'LinkedIn',
       url: 'https://linkedin.com/in/yourusername',
-      icon: <Linkedin className="h-5 w-5" />,
+      className: 'hover:bg-blue-600 hover:text-white',
     },
     {
       name: 'Twitter',
       url: 'https://twitter.com/yourusername',
-      icon: <Twitter className="h-5 w-5" />,
+      className: 'hover:bg-sky-500 hover:text-white',
     },
     {
       name: 'Email',
       url: 'mailto:your.email@example.com',
-      icon: <Mail className="h-5 w-5" />,
+      className: 'hover:bg-rose-500 hover:text-white',
     },
   ];
 
@@ -38,86 +38,148 @@ export function Footer() {
     { name: 'Contact', href: '/contact' },
   ];
 
+  const contactInfo = [
+    { 
+      text: 'your.email@example.com', 
+      href: 'mailto:your.email@example.com',
+    },
+    { 
+      text: 'Based in [Your Location]',
+    },
+    { 
+      text: 'Available for freelance work',
+      className: 'text-green-500 dark:text-green-400'
+    },
+  ];
+
   return (
-    <footer className="border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div className="md:col-span-2">
+    <footer className="bg-gradient-to-b from-background to-muted/30 border-t border-border/50">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* Brand & Social */}
+          <div className="lg:col-span-5">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }}>
-              <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-                Let's Connect
-              </h3>
-              <p className="text-muted-foreground mb-6 max-w-md">
-                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-              </p>
-              <div className="flex space-x-4">
-                {socialLinks.map((link, index) => (
-                  <AnimateOnScroll 
-                    key={link.name}
-                    from={{ opacity: 0, scale: 0.9 }}
-                    to={{ opacity: 1, scale: 1 }}
-                    delay={index * 0.1}
-                  >
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors hover:-translate-y-0.5"
-                      aria-label={link.name}
+              <div className="flex flex-col h-full">
+                <h3 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                  Let's Build Something Amazing
+                </h3>
+                <p className="text-muted-foreground mb-6 max-w-md">
+                  Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!
+                </p>
+                
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  {socialLinks.map((link, index) => (
+                    <AnimateOnScroll 
+                      key={link.name}
+                      from={{ opacity: 0, scale: 0.9 }}
+                      to={{ opacity: 1, scale: 1 }}
+                      delay={index * 0.1}
+                      className="inline-block"
                     >
-                      {link.icon}
-                    </a>
-                  </AnimateOnScroll>
-                ))}
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`p-3 rounded-xl bg-muted/50 hover:shadow-lg transition-all duration-300 flex items-center gap-2 ${link.className || ''}`}
+                        aria-label={link.name}
+                      >
+                        {link.name}
+                        <span className="sr-only">{link.name}</span>
+                      </a>
+                    </AnimateOnScroll>
+                  ))}
+                </div>
               </div>
             </AnimateOnScroll>
           </div>
 
-          <div>
+          {/* Quick Links */}
+          <div className="lg:col-span-3 lg:col-start-7">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }} delay={0.1}>
-              <h4 className="font-semibold mb-4">Navigation</h4>
-              <ul className="space-y-2">
-                {navLinks.map((link, index) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-primary rounded-full"></span>
+                  Navigation
+                </h4>
+                <ul className="space-y-3">
+                  {navLinks.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+                      >
+                        <span>{link.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </AnimateOnScroll>
           </div>
 
-          <div>
+          {/* Contact Info */}
+          <div className="lg:col-span-4">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }} delay={0.2}>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>
-                  <a href="mailto:your.email@example.com" className="hover:text-foreground transition-colors">
-                    your.email@example.com
-                  </a>
-                </li>
-                <li>Based in [Your Location]</li>
-                <li>Available for freelance work</li>
-              </ul>
+              <div>
+                <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-primary rounded-full"></span>
+                  Get In Touch
+                </h4>
+                <ul className="space-y-4">
+                  {contactInfo.map((item, index) => (
+                    <li key={index}>
+                      
+                      {item.href ? (
+                        <a 
+                          href={item.href} 
+                          className={`hover:text-primary transition-colors ${item.className || ''}`}
+                        >
+                          {item.text}
+                        </a>
+                      ) : (
+                        <span className={item.className || ''}>
+                          {item.text}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </AnimateOnScroll>
           </div>
         </div>
 
-        <div className="border-t border-border/40 pt-8 flex flex-col md:flex-row justify-between items-center">
+        {/* Copyright */}
+        <div className="border-t border-border/20 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <AnimateOnScroll from={{ opacity: 0, y: 10 }} to={{ opacity: 1, y: 0 }}>
-            <p className="text-sm text-muted-foreground">
-              © {currentYear} Your Name. All rights reserved.
+            <p className="text-sm text-muted-foreground text-center md:text-left">
+              &copy; {currentYear} Ammar Ahmed. All rights reserved.
             </p>
           </AnimateOnScroll>
           
           <AnimateOnScroll from={{ opacity: 0, y: 10 }} to={{ opacity: 1, y: 0 }} delay={0.1}>
-            <p className="text-sm text-muted-foreground mt-4 md:mt-0">
-              Built with <span className="text-primary">Next.js</span> and <span className="text-primary">Tailwind CSS</span>
-            </p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Built with</span>
+              <a 
+                href="https://nextjs.org/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1"
+              >
+                Next.js
+                <ExternalLink className="h-3 w-3" />
+              </a>
+              <span>and</span>
+              <a 
+                href="https://tailwindcss.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1"
+              >
+                Tailwind CSS
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </AnimateOnScroll>
         </div>
       </div>
