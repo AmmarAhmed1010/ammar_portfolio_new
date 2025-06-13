@@ -1,8 +1,79 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
-import { AnimateOnScroll } from './animate-on-scroll';
+import { ExternalLink, Github, Linkedin, Mail } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// Animation component
+const AnimateOnScroll = ({
+  children,
+  className = '',
+  from = { opacity: 0, y: 20 },
+  to = { opacity: 1, y: 0 },
+  delay = 0,
+  duration = 0.8,
+  trigger = null,
+  start = 'top 80%',
+  once = true,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  from?: gsap.TweenVars;
+  to?: gsap.TweenVars;
+  delay?: number;
+  duration?: number;
+  trigger?: Element | string | null;
+  start?: string;
+  once?: boolean;
+}) => {
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!elementRef.current) return;
+
+    const element = elementRef.current;
+    const actualTrigger = trigger || element;
+
+    // Set initial state
+    gsap.set(element, from);
+
+    // Create animation
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: actualTrigger,
+        start,
+        toggleActions: 'play none none none',
+        once,
+      },
+      defaults: { duration, ease: 'power2.out' },
+      delay,
+    });
+
+    tl.to(element, {
+      ...to,
+      duration,
+      ease: 'power2.out',
+    });
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, [from, to, delay, duration, trigger, start, once]);
+
+  return (
+    <div ref={elementRef} className={className}>
+      {children}
+    </div>
+  );
+};
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,22 +81,20 @@ export function Footer() {
   const socialLinks = [
     {
       name: 'GitHub',
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/AmmarAhmed1010',
+      icon: Github,
       className: 'hover:bg-gray-800 dark:hover:bg-gray-700',
     },
     {
       name: 'LinkedIn',
-      url: 'https://linkedin.com/in/yourusername',
+      url: 'https://www.linkedin.com/in/ammar-ahmed-461578344/',
+      icon: Linkedin,
       className: 'hover:bg-blue-600 hover:text-white',
     },
     {
-      name: 'Twitter',
-      url: 'https://twitter.com/yourusername',
-      className: 'hover:bg-sky-500 hover:text-white',
-    },
-    {
       name: 'Email',
-      url: 'mailto:your.email@example.com',
+      url: 'mailto:ammar7298@gmail.com',
+      icon: Mail,
       className: 'hover:bg-rose-500 hover:text-white',
     },
   ];
@@ -40,11 +109,8 @@ export function Footer() {
 
   const contactInfo = [
     { 
-      text: 'your.email@example.com', 
-      href: 'mailto:your.email@example.com',
-    },
-    { 
-      text: 'Based in [Your Location]',
+      text: 'ammar7298@gmail.com', 
+      href: 'mailto:ammar7298@gmail.com',
     },
     { 
       text: 'Available for freelance work',
@@ -52,12 +118,23 @@ export function Footer() {
     },
   ];
 
+  // Initialize animations on component mount
+  useEffect(() => {
+    // Refresh ScrollTrigger when component mounts to ensure proper calculations
+    ScrollTrigger.refresh();
+    
+    return () => {
+      // Clean up all ScrollTrigger instances when component unmounts
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
-    <footer className="bg-gradient-to-b from-background to-muted/30 border-t border-border/50">
+    <footer className="bg-gradient-to-b from-background to-muted/30 border-t border-border/50 overflow-hidden">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12">
           {/* Brand & Social */}
-          <div className="lg:col-span-5">
+          <div className="lg:flex-1">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }}>
               <div className="flex flex-col h-full">
                 <h3 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
@@ -80,10 +157,10 @@ export function Footer() {
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`p-3 rounded-xl bg-muted/50 hover:shadow-lg transition-all duration-300 flex items-center gap-2 ${link.className || ''}`}
+                        className={`p-3 rounded-xl bg-muted/50 hover:shadow-lg transition-all duration-300 flex items-center justify-center w-12 h-12 ${link.className || ''}`}
                         aria-label={link.name}
                       >
-                        {link.name}
+                        <link.icon className="w-5 h-5" />
                         <span className="sr-only">{link.name}</span>
                       </a>
                     </AnimateOnScroll>
@@ -94,7 +171,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-3 lg:col-start-7">
+          <div className="lg:w-48">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }} delay={0.1}>
               <div>
                 <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">
@@ -118,7 +195,7 @@ export function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="lg:col-span-4">
+          <div className="lg:w-64">
             <AnimateOnScroll from={{ opacity: 0, y: 20 }} to={{ opacity: 1, y: 0 }} delay={0.2}>
               <div>
                 <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">

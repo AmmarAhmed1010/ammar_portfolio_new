@@ -14,10 +14,13 @@ if (typeof window !== 'undefined') {
 type Project = {
   title: string;
   description: string;
-  tags: string[];
+  tags: {
+    name: string;
+    color: string;
+  }[];
   image: string;
-  github?: string;
-  live?: string;
+  github: string;
+  live: string;
 };
 
 type ProjectCardProps = {
@@ -67,7 +70,12 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       className={cn('group relative overflow-hidden rounded-xl border bg-card', className)}
     >
       <div className="aspect-video overflow-hidden bg-muted">
-        <div className="h-full w-full bg-muted/50 transition-transform duration-500 group-hover:scale-105" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src={project.image} 
+          alt={project.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
       </div>
       
       <div className="p-6">
@@ -75,12 +83,12 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         <p className="mb-4 text-muted-foreground">{project.description}</p>
         
         <div className="mb-4 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
+          {project.tags.map((tag, index) => (
             <span 
-              key={tag} 
-              className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
+              key={index} 
+              className={`rounded-full px-3 py-1 text-xs ${tag.color}`}
             >
-              {tag}
+              {tag.name}
             </span>
           ))}
         </div>

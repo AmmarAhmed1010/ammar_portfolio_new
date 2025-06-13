@@ -1,0 +1,28 @@
+import * as React from 'react';
+import * as Icons from 'lucide-react';
+import type { IconName } from './constants';
+
+type IconComponent = React.ComponentType<{ className?: string }>;
+
+// Map icon names to their components
+const iconMap: Record<IconName, IconComponent> = {
+  LayoutDashboard: Icons.LayoutDashboard,
+  Cpu: Icons.Cpu,
+  Code: Icons.Code,
+  Mail: Icons.Mail,
+  MapPin: Icons.MapPin,
+  Phone: Icons.Phone,
+  Github: Icons.Github,
+  Linkedin: Icons.Linkedin,
+  GraduationCap: Icons.GraduationCap,
+  GitBranch: Icons.GitBranch,
+  Monitor: Icons.Monitor,
+  Smartphone: Icons.Smartphone
+};
+
+// Helper function to render icons dynamically
+export function renderIcon(iconName: IconName, className = ''): React.ReactElement | null {
+  const IconComponent = iconMap[iconName];
+  if (!IconComponent) return null;
+  return React.createElement(IconComponent, { className });
+}
